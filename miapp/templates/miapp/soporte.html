@@ -1,0 +1,41 @@
+{% extends 'miapp/home.html' %}
+
+{% block titulo %}
+
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Magnus Lab</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Bienvenido a soporte</p>
+        </div>
+    </div>
+</header>
+
+{% endblock titulo %}
+
+
+
+{% block productos %}
+
+<li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'reportes' %}">Hacer un reporte</a></li>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre del reporte</th>
+            <th>Problematica</th>
+            <th>email</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for reporte in reportes %}
+        <tr>
+            <td>{{ reporte.nombre }}</td>
+            <td>{{ reporte.problematica }}</td>
+            <td>{{ reporte.email }}</td>
+        </tr>
+    {% endfor %}
+    
+    </tbody>
+</table>
+{% endblock productos %}
