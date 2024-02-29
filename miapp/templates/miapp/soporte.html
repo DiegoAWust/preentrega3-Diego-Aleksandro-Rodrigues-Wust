@@ -16,8 +16,11 @@
 
 
 {% block productos %}
+<br>
 
-<li class="nav-item"><a class="nav-link active" aria-current="page" href="{% url 'reportes' %}">Hacer un reporte</a></li>
+<div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+    <a href="{% url 'reportes' %}" class="btn btn-success">Hacer un reporte</a>
+</div>
 
 <table class="table table-striped">
     <thead>
@@ -26,6 +29,7 @@
             <th>Problematica</th>
             <th>email</th>
         </tr>
+        
     </thead>
     <tbody>
     {% for reporte in reportes %}
@@ -33,7 +37,24 @@
             <td>{{ reporte.nombre }}</td>
             <td>{{ reporte.problematica }}</td>
             <td>{{ reporte.email }}</td>
+            {% if request.user.is_superuser %}
+            <td>
+                <a
+                  href="{% url 'actualizarSoporte' reporte.id %}"
+                  class="btn btn-primary"
+                  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                  ><i class="fa fa-edit fa-sm" title="Edit Record"></i>
+                </a>
+                <a
+                  href="{% url 'eliminarSoporte' reporte.id %}"
+                  class="btn btn-danger"
+                  style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                  ><i class="fa fa-trash fa-sm" title="Delete Record"></i>
+                </a>                
+              </td>
+              {% endif %}
         </tr>
+        
     {% endfor %}
     
     </tbody>

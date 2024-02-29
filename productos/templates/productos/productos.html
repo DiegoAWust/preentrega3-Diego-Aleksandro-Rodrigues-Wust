@@ -1,0 +1,80 @@
+{% extends 'miapp/home.html' %}
+
+{% block titulo %}
+
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Magnus Lab</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Productos veterinarios</p>
+        </div>
+    </div>
+</header>
+
+{% endblock titulo %}
+
+
+{% block productos %}
+
+<div class="container">
+
+    <div style="float:right;">
+
+            {% include "productos/widget.html" %}
+            
+    </div>
+
+<div class="row">
+
+{% for producto in productos %}
+<section class="py-5">
+    <div class="card-body p-4">
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                <div class="card" style="width: 30%; margin: 5px 5px;">
+                    <img src="{{producto.imagen.url}}" class="card-img-top">
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <h5 class="fw-bolder">{{producto.nombre}}</h5>
+                            {{producto.descripcion}}<br>
+                            {% if producto.disponibilidad %}
+                            Disponible<br>
+                            {% else %}
+                            No Disponible<br>
+                            {% endif %}
+                            <!-- Product price-->
+                            {{producto.precio}}&nbsp;$
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'carro:agregar' producto.id %}" class="btn btn-success">Agregar al carro</a>
+                    </div>
+                    {% if request.user.is_superuser %}
+                    <a
+                    href="{% url 'actualizarProducto' producto.id %}"
+                    class="btn btn-primary"
+                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+                    ><i class="fa fa-edit fa-sm" title="Edit Record"></i>
+                </a>
+                <br>
+                <a
+                    href="{% url 'eliminarProducto' producto.id %}"
+                    class="btn btn-danger"
+                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .75rem; --bs-btn-font-size: .75rem;"
+                ><i class="fa fa-trash fa-sm" title="Delete Record"></i>
+                </a>      
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endfor %}
+
+{% endblock productos %}
+
+</div>

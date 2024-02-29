@@ -1,27 +1,7 @@
 from django import forms
 from .models import *
-
-class UsuarioForm(forms.ModelForm):
-    contraseña = forms.CharField(label='contraseña', widget=forms.PasswordInput)
-    confirmar_contraseña = forms.CharField(label='confirmar contraseña', widget=forms.PasswordInput)
-    class Meta:
-        model = Usuario
-        fields = ['nombre_completo', 'email', 'contraseña', 'confirmar_contraseña']
-
-    def clean_email(self):
-        email = self.cleaned_data['email']
-
-        if Usuario.objects.filter(email=email).exists():
-            raise forms.ValidationError('Ya existe un usuario con este correo electrónico.')
-        return email
-    
-class productosForm(forms.ModelForm):
-    nombre = forms.CharField(max_length=50, required=True)
-    descripcion = forms.CharField(max_length=250, required=True)
-    precio = forms.IntegerField(required=True)
-    class Meta:
-        model = Producto
-        fields = ['nombre', 'descripcion', 'precio']
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.models import User
 
 class soporteForm(forms.ModelForm):
     nombre = forms.CharField(max_length=150, required=True)
@@ -31,3 +11,18 @@ class soporteForm(forms.ModelForm):
         model = Soporte
         fields = ['nombre', 'problematica', 'email']
 
+#_______________________________editar usuario_______________________________#
+
+class UserEditForm(UserCreationForm):
+    username = forms.CharField(max_length=70, required=True)
+    email = forms.EmailField(max_length=50, required=True)
+    password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
+    password2 = forms.CharField(label="Confirmar Contraseña", widget=forms.PasswordInput)
+
+
+    class Meta:
+        model = User
+        fields = ['username' ,'email', 'password1', 'password2']
+
+class AvatarForm(forms.Form):
+    imagen = forms.ImageField(required=True)
